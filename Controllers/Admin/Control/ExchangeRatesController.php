@@ -26,7 +26,7 @@ class ExchangeRatesController extends BaseController
     /**
      * @throws \Exception
      */
-    public function rates(): array
+    public function list(): array
     {
         return self::dtoListToArray($this->getRates->list());
     }
@@ -36,7 +36,7 @@ class ExchangeRatesController extends BaseController
      * @noinspection UnknownInspectionInspection
      * @noinspection PhpUndefinedMethodInspection
      */
-    public function addRate(Request $request): void
+    public function add(Request $request): void
     {
         $this->validate($request, [
             'currency_from.code'  => ['required', Rule::in(CurrencyCode::ALL)],
