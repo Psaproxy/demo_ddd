@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Core\Admin\App\View;
 
 use Core\Admin\App\Actions\ExchangeRatesControl\View\ExchangeRateView;
+use Core\Admin\App\View\DTO\CurrencyView;
 use Core\Admin\App\View\Helpers\AmountTrait;
 use Core\Admin\App\View\Helpers\DateTimeTrait;
 use Core\Admin\Domain\ExchangeRate\DTO\ExchangeRateDTO;
