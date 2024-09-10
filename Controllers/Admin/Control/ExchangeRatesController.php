@@ -12,13 +12,15 @@ use Controllers\BaseController;
 use Core\Admin\App\Actions\ExchangeRates\Control\AddRate;
 use Core\Admin\App\Actions\ExchangeRates\Control\Exceptions\ExchangeRateAlreadyExistsException;
 use Core\Admin\App\Actions\ExchangeRates\Control\GetRates;
+use Core\Admin\App\Actions\ExchangeRates\Control\UpdateStates;
 use Core\Common\VO\CurrencyCode;
 
 class ExchangeRatesController extends BaseController
 {
     public function __construct(
-        private readonly GetRates $getRates,
-        private readonly AddRate  $addRate,
+        private readonly GetRates     $getRates,
+        private readonly AddRate      $addRate,
+        private readonly UpdateStates $updateStates,
     )
     {
     }
@@ -45,11 +47,11 @@ class ExchangeRatesController extends BaseController
             'currency_to.title'   => 'required|min:1|max:100',
         ]);
 
-        $isEnabled = $this->request()->boolean('is_enabled');
-        $currencyFromCode = $this->request()->string('currency_from.code');
-        $currencyFromTitle = $this->request()->string('currency_from.title')->trim();
-        $currencyToCode = $this->request()->string('currency_to.code');
-        $currencyToTitle = $this->request()->string('currency_to.title')->trim();
+        $isEnabled = $request->boolean('is_enabled');
+        $currencyFromCode = $request->string('currency_from.code');
+        $currencyFromTitle = $request->string('currency_from.title')->trim();
+        $currencyToCode = $request->string('currency_to.code');
+        $currencyToTitle = $request->string('currency_to.title')->trim();
 
         try {
             $this->addRate->add(
@@ -65,5 +67,17 @@ class ExchangeRatesController extends BaseController
                 400
             );
         }
+    }
+
+    /**
+     * @noinspection PhpUndefinedClassInspection
+     * @noinspection UnknownInspectionInspection
+     * @noinspection PhpUndefinedMethodInspection
+     */
+    public function updateStates(Request $request): void
+    {
+        $newStates = $request->input('new_states');
+
+        $this->updateStates->update($newStates);
     }
 }

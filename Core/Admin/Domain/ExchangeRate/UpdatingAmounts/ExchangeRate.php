@@ -7,17 +7,17 @@ namespace Core\Admin\Domain\ExchangeRate\UpdatingAmounts;
 use Core\Admin\Domain\ExchangeRate\Control\ExchangeRate as ExchangeRateBase;
 use Core\Admin\Domain\ExchangeRate\UpdatingAmounts\Events\ExchangeRateAmountWasCreated;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateAmount;
+use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
 use Core\Common\Infra\Event\Events;
 use Core\Common\VO\CurrencyCode;
-use Core\Common\VO\UUID;
 
 class ExchangeRate
 {
     use Events;
 
-    readonly protected UUID $id;
-    readonly protected CurrencyCode $currencyFromCode;
-    readonly protected CurrencyCode $currencyToCode;
+    readonly private ExchangeRateID $id;
+    readonly private CurrencyCode $currencyFromCode;
+    readonly private CurrencyCode $currencyToCode;
     protected ?ExchangeRateAmount $newAmount;
     protected ?\DateTimeImmutable $updatedAt;
 
@@ -28,7 +28,7 @@ class ExchangeRate
         );
     }
 
-    public function id(): UUID
+    public function id(): ExchangeRateID
     {
         return $this->id;
     }
@@ -48,12 +48,14 @@ class ExchangeRate
         return $this->newAmount;
     }
 
-    public function updateAmount(ExchangeRateAmount $amount): void
+    public function updateAmount(ExchangeRateAmount $amount): bool
     {
         $this->newAmount = $amount;
         $this->updatedAt = new \DateTimeImmutable();
 
         $this->addEvents(new ExchangeRateAmountWasCreated($this->id, $amount));
+
+        return true;
     }
 
     public function updatedAt(): ?\DateTimeImmutable

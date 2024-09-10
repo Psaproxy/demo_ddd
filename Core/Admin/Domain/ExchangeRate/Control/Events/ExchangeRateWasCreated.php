@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Core\Admin\Domain\ExchangeRate\Control\Events;
 
 use Core\Admin\Domain\ExchangeRate\Control\ExchangeRate;
+use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
 use Core\Common\Infra\Event\Event;
-use Core\Common\VO\UUID;
 
 class ExchangeRateWasCreated extends Event
 {
@@ -17,7 +17,7 @@ class ExchangeRateWasCreated extends Event
         parent::__construct();
     }
 
-    public function id(): UUID
+    public function id(): ExchangeRateID
     {
         return $this->exchangeRate->id();
     }
