@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Admin\App\Actions\Control\ExchangeRates;
 
+use Core\Admin\App\Actions\Control\ExchangeRates\Exceptions\ExchangeRateAlreadyExistsException;
 use Core\Admin\Domain\ExchangeRate\ExchangeRateNew;
 use Core\Admin\Domain\ExchangeRate\IExchangeRateRepository;
 use Core\Common\Infra\ITransaction;
@@ -20,6 +21,9 @@ readonly class AddRate
     {
     }
 
+    /**
+     * @throws ExchangeRateAlreadyExistsException
+     */
     public function add(
         bool   $isEnabled,
         string $currencyFromCode,
@@ -32,6 +36,9 @@ readonly class AddRate
         $currencyFromTitle = new CurrencyTitle($currencyFromTitle);
         $currencyToCode = new CurrencyCode($currencyToCode);
         $currencyToTitle = new CurrencyTitle($currencyToTitle);
+
+        $isRateExists = $this->repository->isExistsByCurrency($currencyFromCode, $currencyToCode);
+        if ($isRateExists) throw new ExchangeRateAlreadyExistsException($currencyFromCode, $currencyToCode);
 
         $rate = new ExchangeRateNew(
             $isEnabled,

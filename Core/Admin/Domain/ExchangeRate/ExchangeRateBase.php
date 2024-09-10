@@ -6,9 +6,11 @@ namespace Core\Admin\Domain\ExchangeRate;
 
 use Core\Admin\Domain\ExchangeRate\VO\Amount;
 use Core\Common\VO\Currency;
+use Core\Common\VO\UUID;
 
 abstract class ExchangeRateBase
 {
+    protected ?UUID $id;
     protected ?Amount $amount;
     protected \DateTimeImmutable $createdAt;
     protected ?\DateTimeImmutable $updatedAt;
@@ -22,6 +24,11 @@ abstract class ExchangeRateBase
         $this->createdAt = new \DateTimeImmutable();
 
         //todo Добавить событие добавления нового курса обмена.
+    }
+
+    public function id(): ?UUID
+    {
+        return $this->id;
     }
 
     public function isEnabled(): bool

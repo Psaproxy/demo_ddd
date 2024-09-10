@@ -10,6 +10,7 @@ namespace Controllers\Admin\Control;
 
 use Controllers\BaseController;
 use Core\Admin\App\Actions\Control\ExchangeRates\AddRate;
+use Core\Admin\App\Actions\Control\ExchangeRates\Exceptions\ExchangeRateAlreadyExistsException;
 use Core\Admin\App\Actions\Control\ExchangeRates\GetRates;
 use Core\Common\VO\CurrencyCode;
 
@@ -49,12 +50,19 @@ class ExchangeRatesController extends BaseController
         $currencyToCode = $this->request()->string('currency_to.code');
         $currencyToTitle = $this->request()->string('currency_to.title')->trim();
 
-        $this->addRate->add(
-            $isEnabled,
-            $currencyFromCode,
-            $currencyFromTitle,
-            $currencyToCode,
-            $currencyToTitle,
-        );
+        try {
+            $this->addRate->add(
+                $isEnabled,
+                $currencyFromCode,
+                $currencyFromTitle,
+                $currencyToCode,
+                $currencyToTitle,
+            );
+        } catch (ExchangeRateAlreadyExistsException) {
+            $this->response()->error(
+                "Курс обмена валют для \"$currencyFromCode\" к \"$currencyToCode\" уже имеется.",
+                400
+            );
+        }
     }
 }

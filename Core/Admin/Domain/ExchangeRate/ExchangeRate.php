@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Core\Admin\Domain\ExchangeRate;
 
 use Core\Admin\Domain\ExchangeRate\VO\Amount;
-use Core\Common\VO\Currency;
 
 class ExchangeRate extends ExchangeRateBase
 {
