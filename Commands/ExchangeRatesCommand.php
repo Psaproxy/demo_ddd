@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Commands\Admin\Control;
+namespace Commands;
 
 use Core\Admin\App\Actions\ExchangeRates\System\UpdateRatesAmounts;
 
