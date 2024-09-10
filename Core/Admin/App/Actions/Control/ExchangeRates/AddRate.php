@@ -54,8 +54,8 @@ readonly class AddRate
 
         $this->transaction->execute(function () use ($rate) {
             $this->repository->add($rate);
-        });
 
-        //todo Добавить обработку событий из сущности $rate.
+            //todo Добавить обработку событий из сущности $rate.
+        });
     }
 }
