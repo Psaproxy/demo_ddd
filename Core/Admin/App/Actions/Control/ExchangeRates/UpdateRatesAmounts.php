@@ -16,7 +16,7 @@ readonly class UpdateRatesAmounts
     {
     }
 
-    public function updateAllEnabled(): void
+    public function updateEnabled(): void
     {
         $rates = $this->repository->findEnabled();
         if (!$rates) return;

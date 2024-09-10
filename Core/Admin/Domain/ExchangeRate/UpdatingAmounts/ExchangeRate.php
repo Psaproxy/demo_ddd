@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Admin\Domain\ExchangeRate\UpdatingAmounts;
 
+use Core\Admin\Domain\ExchangeRate\ExchangeRate as ExchangeRateBase;
 use Core\Admin\Domain\ExchangeRate\VO\Amount;
 use Core\Common\VO\CurrencyCode;
 use Core\Common\VO\UUID;
@@ -18,7 +19,9 @@ class ExchangeRate
 
     public function __construct()
     {
-        throw new \RuntimeException();
+        throw new \RuntimeException(
+            "Создание новой сущности не поддерживается. Для этого необходимо использовать: " . ExchangeRateBase::class
+        );
     }
 
     public function id(): UUID
@@ -46,7 +49,7 @@ class ExchangeRate
         $this->newAmount = $amount;
         $this->updatedAt = new \DateTimeImmutable();
 
-        //todo Добавить событие обновления суммы курса обмена.
+        //todo Добавить событие обновления суммы.
     }
 
     public function updatedAt(): ?\DateTimeImmutable
