@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Core\Admin\Domain\ExchangeRate\UpdatingAmounts\VO;
 
-use Core\Admin\Domain\ExchangeRate\VO\Amount;
 use Core\Common\VO\CurrencyCode;
+use Core\Common\VO\ExchangeRateAmount;
 
 readonly class NewAmount
 {
     public function __construct(
-        private Amount       $amount,
-        private CurrencyCode $currencyFromCode,
-        private CurrencyCode $currencyToCode,
+        private ExchangeRateAmount $amount,
+        private CurrencyCode       $currencyFromCode,
+        private CurrencyCode       $currencyToCode,
     )
     {
     }
 
-    public function amount(): Amount
+    public function amount(): ExchangeRateAmount
     {
         return $this->amount;
     }

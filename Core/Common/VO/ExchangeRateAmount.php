@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Core\Admin\Domain\ExchangeRate\VO;
+namespace Core\Common\VO;
 
-class Amount extends \Core\Common\VO\Amount
+class ExchangeRateAmount extends Amount
 {
     public function __construct(string $value)
     {

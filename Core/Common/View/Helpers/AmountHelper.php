@@ -2,7 +2,7 @@
 
 namespace Core\Common\View\Helpers;
 
-trait AmountTrait
+trait AmountHelper
 {
     /**
      * todo Добавить нормализацию. Сейчас для примера.

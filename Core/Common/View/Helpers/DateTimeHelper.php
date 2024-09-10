@@ -2,7 +2,7 @@
 
 namespace Core\Common\View\Helpers;
 
-trait DateTimeTrait
+trait DateTimeHelper
 {
     private const int FORMAT_DATETIME_SIMPLE = 1;
     private const array FORMAT_DATETIME_ALL = [

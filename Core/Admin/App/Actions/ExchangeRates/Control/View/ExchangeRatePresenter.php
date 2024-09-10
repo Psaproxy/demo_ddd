@@ -2,24 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Core\Admin\App\View;
+namespace Core\Admin\App\Actions\ExchangeRates\Control\View;
 
-use Core\Admin\App\Actions\Control\ExchangeRates\View\ExchangeRateView;
-use Core\Admin\Domain\ExchangeRate\DTO\ExchangeRateDTO;
+use Core\Admin\Domain\ExchangeRate\Control\DTO\ExchangeRateDTO;
 use Core\Common\View\DTO\CurrencyView;
-use Core\Common\View\Helpers\AmountTrait;
-use Core\Common\View\Helpers\DateTimeTrait;
+use Core\Common\View\Helpers\AmountHelper;
+use Core\Common\View\Helpers\DateTimeHelper;
 
 readonly class ExchangeRatePresenter
 {
-    use AmountTrait;
-    use DateTimeTrait;
+    use AmountHelper;
+    use DateTimeHelper;
 
     /**
      * @return ExchangeRateView[]
      * @throws \Exception
      */
-    public function listForControl(ExchangeRateDTO ...$rates): array
+    public function list(ExchangeRateDTO ...$rates): array
     {
         if (!$rates) return [];
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Admin\App\Actions\Control\ExchangeRates\View;
+namespace Core\Admin\App\Actions\ExchangeRates\Control\View;
 
 use Core\Common\View\DTO\CurrencyView;
 

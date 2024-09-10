@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Admin\App\Actions\Control\ExchangeRates\Exceptions;
+namespace Core\Admin\App\Actions\ExchangeRates\Control\Exceptions;
 
 use Core\Common\VO\CurrencyCode;
 
@@ -14,7 +14,7 @@ class ExchangeRateAlreadyExistsException extends \RuntimeException
     )
     {
         parent::__construct(
-            "Курс обмена валют для \"$currencyFromCode\" к \"$currencyToCode\" уже имеется.",
+            "Курс обмена валюты \"$currencyFromCode\" на \"$currencyToCode\" уже имеется.",
             $code,
             $previous
         );

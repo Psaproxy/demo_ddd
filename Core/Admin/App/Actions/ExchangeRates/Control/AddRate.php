@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Core\Admin\App\Actions\Control\ExchangeRates;
+namespace Core\Admin\App\Actions\ExchangeRates\Control;
 
-use Core\Admin\App\Actions\Control\ExchangeRates\Exceptions\ExchangeRateAlreadyExistsException;
-use Core\Admin\Domain\ExchangeRate\ExchangeRate;
-use Core\Admin\Domain\ExchangeRate\IExchangeRateRepository;
+use Core\Admin\App\Actions\ExchangeRates\Control\Exceptions\ExchangeRateAlreadyExistsException;
+use Core\Admin\Domain\ExchangeRate\Control\ExchangeRate;
+use Core\Admin\Domain\ExchangeRate\Control\IExchangeRateRepository;
+use Core\Common\Infra\Event\EventsPublisher;
 use Core\Common\Infra\ITransaction;
 use Core\Common\VO\Currency;
 use Core\Common\VO\CurrencyCode;
@@ -16,6 +17,7 @@ readonly class AddRate
 {
     public function __construct(
         private ITransaction            $transaction,
+        private EventsPublisher         $eventsPublisher,
         private IExchangeRateRepository $repository,
     )
     {
@@ -55,7 +57,7 @@ readonly class AddRate
         $this->transaction->execute(function () use ($rate) {
             $this->repository->add($rate);
 
-            //todo Добавить обработку событий из сущности $rate.
+            $this->eventsPublisher->publish(...$rate->releaseEvents());
         });
     }
 }

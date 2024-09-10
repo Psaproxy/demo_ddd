@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace Controllers\Admin\Control;
 
 use Controllers\BaseController;
-use Core\Admin\App\Actions\Control\ExchangeRates\AddRate;
-use Core\Admin\App\Actions\Control\ExchangeRates\Exceptions\ExchangeRateAlreadyExistsException;
-use Core\Admin\App\Actions\Control\ExchangeRates\GetRates;
+use Core\Admin\App\Actions\ExchangeRates\Control\AddRate;
+use Core\Admin\App\Actions\ExchangeRates\Control\Exceptions\ExchangeRateAlreadyExistsException;
+use Core\Admin\App\Actions\ExchangeRates\Control\GetRates;
 use Core\Common\VO\CurrencyCode;
 
 class ExchangeRatesController extends BaseController
@@ -60,7 +60,7 @@ class ExchangeRatesController extends BaseController
             );
         } catch (ExchangeRateAlreadyExistsException) {
             $this->response()->error(
-                "Курс обмена валют для \"$currencyFromCode\" к \"$currencyToCode\" уже имеется.",
+                "Курс обмена валюты \"$currencyFromCode\" на \"$currencyToCode\" уже имеется.",
                 400
             );
         }

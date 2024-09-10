@@ -2,13 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Core\Admin\Domain\ExchangeRate;
+namespace Core\Admin\Domain\ExchangeRate\Control;
 
+use Core\Admin\Domain\ExchangeRate\Control\Events\ExchangeRateWasCreated;
+use Core\Common\Infra\Event\Events;
 use Core\Common\VO\Currency;
 use Core\Common\VO\UUID;
 
 class ExchangeRate
 {
+    use Events;
+
     protected ?UUID $id;
     protected \DateTimeImmutable $createdAt;
 
@@ -20,7 +24,7 @@ class ExchangeRate
     {
         $this->createdAt = new \DateTimeImmutable();
 
-        //todo Добавить событие добавления нового курса обмена.
+        $this->addEvents(new ExchangeRateWasCreated($this));
     }
 
     public function id(): ?UUID

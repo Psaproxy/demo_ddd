@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Commands\Admin\Control;
 
-use Core\Admin\App\Actions\Control\ExchangeRates\UpdateRatesAmounts;
+use Core\Admin\App\Actions\ExchangeRates\System\UpdateRatesAmounts;
 
 readonly class ExchangeRatesCommand
 {
