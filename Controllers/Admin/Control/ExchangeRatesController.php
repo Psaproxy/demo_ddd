@@ -44,6 +44,7 @@ class ExchangeRatesController extends BaseController
             'currency_to.code'    => ['required', Rule::in(CurrencyCode::ALL)],
             'currency_to.title'   => 'required|min:1|max:100',
         ]);
+
         $isEnabled = $this->request()->boolean('is_enabled');
         $currencyFromCode = $this->request()->string('currency_from.code');
         $currencyFromTitle = $this->request()->string('currency_from.title')->trim();
