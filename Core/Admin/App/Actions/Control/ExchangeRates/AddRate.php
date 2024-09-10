@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Admin\App\Actions\ExchangeRatesControl;
+namespace Core\Admin\App\Actions\Control\ExchangeRates;
 
 use Core\Admin\Domain\ExchangeRate\ExchangeRateNew;
 use Core\Admin\Domain\ExchangeRate\IExchangeRateRepository;

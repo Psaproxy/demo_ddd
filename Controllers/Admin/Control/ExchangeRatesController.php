@@ -9,11 +9,11 @@ declare(strict_types=1);
 namespace Controllers\Admin\Control;
 
 use Controllers\BaseController;
-use Core\Admin\App\Actions\ExchangeRatesControl\AddRate;
-use Core\Admin\App\Actions\ExchangeRatesControl\GetRates;
+use Core\Admin\App\Actions\Control\ExchangeRates\AddRate;
+use Core\Admin\App\Actions\Control\ExchangeRates\GetRates;
 use Core\Common\VO\CurrencyCode;
 
-class ExchangeRateController extends BaseController
+class ExchangeRatesController extends BaseController
 {
     public function __construct(
         private readonly GetRates $getRates,

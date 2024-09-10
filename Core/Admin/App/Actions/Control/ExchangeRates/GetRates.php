@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Core\Admin\App\Actions\ExchangeRatesControl;
+namespace Core\Admin\App\Actions\Control\ExchangeRates;
 
-use Core\Admin\App\Actions\ExchangeRatesControl\View\ExchangeRateView;
+use Core\Admin\App\Actions\Control\ExchangeRates\View\ExchangeRateView;
 use Core\Admin\App\View\ExchangeRatePresenter;
 use Core\Admin\Domain\ExchangeRate\IExchangeRateDataProvider;
 
