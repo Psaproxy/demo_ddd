@@ -8,6 +8,7 @@ use Core\Admin\Domain\ExchangeRate\Control\ExchangeRate as ExchangeRateBase;
 use Core\Admin\Domain\ExchangeRate\UpdatingAmounts\Events\ExchangeRateAmountWasCreated;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateAmount;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
+use Core\Common\Exceptions\LogicException;
 use Core\Common\Infra\Event\Events;
 use Core\Common\VO\CurrencyCode;
 
@@ -23,7 +24,7 @@ class ExchangeRate
 
     public function __construct()
     {
-        throw new \RuntimeException(
+        throw new LogicException(
             "Создание новой сущности не поддерживается. Для этого необходимо использовать: " . ExchangeRateBase::class
         );
     }

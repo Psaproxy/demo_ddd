@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Core\Admin\Domain\ExchangeRate\Exceptions;
 
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
+use Core\Common\Exceptions\RuntimeException;
 
-class ExchangeRatesNotExistsException extends \RuntimeException
+class ExchangeRatesNotExistsException extends RuntimeException
 {
     /**
      * @var ExchangeRateID[]
@@ -14,17 +15,13 @@ class ExchangeRatesNotExistsException extends \RuntimeException
     private array $idsNotExists;
 
     public function __construct(
-        int                   $code = 0,
-        ?\Throwable           $previous = null,
-        ExchangeRateID        ...$idsNotExists,
+        ExchangeRateID ...$idsNotExists
     )
     {
         $this->idsNotExists = $idsNotExists;
 
         parent::__construct(
             "Не найдены курсы обмена валют с ID: " . implode(",", $idsNotExists),
-            $code,
-            $previous
         );
     }
 

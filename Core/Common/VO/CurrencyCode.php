@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Core\Common\VO;
 
+use Core\Common\Exceptions\InvalidArgumentException;
+
 class CurrencyCode extends Text
 {
     public const string RUB = 'RUB';
@@ -22,7 +24,7 @@ class CurrencyCode extends Text
         } else {
             $valueNormalized = strtoupper(trim($value));
             if (!in_array($valueNormalized, self::ALL, true)) {
-                throw new \InvalidArgumentException("Недоступное значение кода валюты \"$value\". Доступные значения: " . implode(',', self::ALL));
+                throw new InvalidArgumentException("Недоступное значение кода валюты \"$value\". Доступные значения: " . implode(',', self::ALL));
             }
         }
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Core\Common\VO;
 
+use Core\Common\Exceptions\InvalidArgumentException;
+
 class Amount
 {
     public function __construct(
@@ -15,7 +17,7 @@ class Amount
         } else {
             $valueNormalized = trim((string)$value);
             if (!is_numeric($valueNormalized)) {
-                throw new \InvalidArgumentException("Недоступное значение суммы \"$value\". Доступные значения: целое число или число с точкой.");
+                throw new InvalidArgumentException("Недоступное значение суммы \"$value\". Доступные значения: целое число или число с точкой.");
             }
         }
 

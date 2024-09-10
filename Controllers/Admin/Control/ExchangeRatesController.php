@@ -13,6 +13,7 @@ use Core\Admin\App\Actions\ExchangeRates\Control\AddRate;
 use Core\Admin\App\Actions\ExchangeRates\Control\Exceptions\ExchangeRateAlreadyExistsException;
 use Core\Admin\App\Actions\ExchangeRates\Control\GetRates;
 use Core\Admin\App\Actions\ExchangeRates\Control\UpdateStates;
+use Core\Admin\Domain\ExchangeRate\Exceptions\ExchangeRatesNotExistsException;
 use Core\Common\VO\CurrencyCode;
 
 class ExchangeRatesController extends BaseController
@@ -61,9 +62,9 @@ class ExchangeRatesController extends BaseController
                 $currencyToCode,
                 $currencyToTitle,
             );
-        } catch (ExchangeRateAlreadyExistsException) {
+        } catch (ExchangeRateAlreadyExistsException $e) {
             $this->response()->error(
-                "Курс обмена валюты \"$currencyFromCode\" на \"$currencyToCode\" уже имеется.",
+                "Курс обмена валюты \"{$e->currencyFromCode()}\" на \"{$e->currencyToCode()}\" уже имеется.",
                 400
             );
         }
@@ -78,6 +79,13 @@ class ExchangeRatesController extends BaseController
     {
         $newStates = $request->input('new_states');
 
-        $this->updateStates->update($newStates);
+        try {
+            $this->updateStates->update($newStates);
+        } catch (ExchangeRatesNotExistsException $e) {
+            $this->response()->error(
+                "Не найдены курсы обмена валют с ID: " . implode(",", $e->idsNotExists()),
+                400
+            );
+        }
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Admin\App\Actions\ExchangeRates\Control;
 
+use Core\Admin\Domain\ExchangeRate\Exceptions\ExchangeRatesNotExistsException;
 use Core\Admin\Domain\ExchangeRate\UpdatingState\IExchangeRateRepository;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
 use Core\Common\Infra\Event\EventsPublisher;
@@ -21,6 +22,7 @@ readonly class UpdateStates
 
     /**
      * @param array<string, bool> $newStates Ключ - ID курса. Значение - новое состояние.
+     * @throws ExchangeRatesNotExistsException
      */
     public function update(array $newStates): void
     {

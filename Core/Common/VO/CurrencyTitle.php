@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Core\Common\VO;
 
+use Core\Common\Exceptions\InvalidArgumentException;
+
 class CurrencyTitle extends Text
 {
     public function __construct(
@@ -15,7 +17,7 @@ class CurrencyTitle extends Text
         } else {
             $valueNormalized = trim($value);
             if ($valueNormalized === '') {
-                throw new \InvalidArgumentException("Недоступное значение названия \"$value\". Доступные значения: не пустая строка.");
+                throw new InvalidArgumentException("Недоступное значение названия \"$value\". Доступные значения: не пустая строка.");
             }
         }
 

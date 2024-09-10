@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Admin\Domain\ExchangeRate\VO;
 
+use Core\Common\Exceptions\InvalidArgumentException;
 use Core\Common\VO\Amount;
 
 class ExchangeRateAmount extends Amount
@@ -13,7 +14,7 @@ class ExchangeRateAmount extends Amount
         parent::__construct($value);
 
         if ($this->lessOrEqual(0)) {
-            throw new \InvalidArgumentException("Недоступное значение суммы \"$value\". Доступные значения: сумма больше 0.0.");
+            throw new InvalidArgumentException("Недоступное значение суммы \"$value\". Доступные значения: сумма больше 0.0.");
         }
     }
 }
