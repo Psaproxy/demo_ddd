@@ -22,14 +22,4 @@ class UUID extends Text
 
         parent::__construct($valueNormalized);
     }
-
-    public function __toString(): string
-    {
-        return $this->value;
-    }
-
-    public function value(): string
-    {
-        return $this->value;
-    }
 }
