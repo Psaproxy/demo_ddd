@@ -6,9 +6,9 @@ namespace Core\Admin\Domain\ExchangeRate\UpdatingAmounts;
 
 use Core\Admin\Domain\ExchangeRate\Control\ExchangeRate as ExchangeRateBase;
 use Core\Admin\Domain\ExchangeRate\UpdatingAmounts\Events\ExchangeRateAmountWasCreated;
+use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateAmount;
 use Core\Common\Infra\Event\Events;
 use Core\Common\VO\CurrencyCode;
-use Core\Common\VO\ExchangeRateAmount;
 use Core\Common\VO\UUID;
 
 class ExchangeRate

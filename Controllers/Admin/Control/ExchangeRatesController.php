@@ -28,7 +28,7 @@ class ExchangeRatesController extends BaseController
      */
     public function rates(): array
     {
-        return self::dtoListToArray($this->getRates->get());
+        return self::dtoListToArray($this->getRates->list());
     }
 
     /**

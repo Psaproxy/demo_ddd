@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Core\Admin\App\Actions\ExchangeRates\Control\View;
 
 use Core\Admin\Domain\ExchangeRate\Control\DTO\ExchangeRateDTO;
-use Core\Common\View\DTO\CurrencyView;
+use Core\Common\DTO\CurrencyDTO;
 use Core\Common\View\Helpers\AmountHelper;
 use Core\Common\View\Helpers\DateTimeHelper;
 
@@ -36,8 +36,8 @@ readonly class ExchangeRatePresenter
 
             return new ExchangeRateView(
                 $rate->isEnabled,
-                new CurrencyView($rate->currencyFrom->code, $rate->currencyFrom->title),
-                new CurrencyView($rate->currencyTo->code, $rate->currencyTo->title),
+                new CurrencyDTO($rate->currencyFrom->code, $rate->currencyFrom->title),
+                new CurrencyDTO($rate->currencyTo->code, $rate->currencyTo->title),
                 $rate->amount !== null ? self::normalizeAmount($rate->amount, 4) : '',
                 $rate->updatedAt !== null ? self::normalizeDateTime($rate->updatedAt, self::FORMAT_DATETIME_SIMPLE) : '',
                 $hint,

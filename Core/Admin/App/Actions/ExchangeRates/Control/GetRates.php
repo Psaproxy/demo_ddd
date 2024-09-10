@@ -21,7 +21,7 @@ readonly class GetRates
      * @return ExchangeRateView[]
      * @throws \Exception
      */
-    public function get(): array
+    public function list(): array
     {
         $rates = $this->dataProvider->findList();
 
