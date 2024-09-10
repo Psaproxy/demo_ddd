@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Admin\Domain\ExchangeRate\DTO;
+namespace Core\Admin\Domain\ExchangeRate\DTO\Control;
 
 use Core\Common\DTO\CurrencyDTO;
 

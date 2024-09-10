@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Admin\App\Actions\ExchangeRatesControl;
 
-use Core\Admin\Domain\ExchangeRate\ExchangeRateBaseNew;
+use Core\Admin\Domain\ExchangeRate\ExchangeRateNew;
 use Core\Admin\Domain\ExchangeRate\IExchangeRateRepository;
 use Core\Common\Infra\ITransaction;
 use Core\Common\VO\Currency;
@@ -33,7 +33,7 @@ readonly class AddRate
         $currencyToCode = new CurrencyCode($currencyToCode);
         $currencyToTitle = new CurrencyTitle($currencyToTitle);
 
-        $rate = new ExchangeRateBaseNew(
+        $rate = new ExchangeRateNew(
             $isEnabled,
             new Currency(
                 new CurrencyCode($currencyFromCode),

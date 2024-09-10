@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Admin\App\Actions\ExchangeRatesControl\View;
 
-use Core\Admin\App\View\DTO\CurrencyView;
+use Core\Common\View\DTO\CurrencyView;
 
 readonly class ExchangeRateView
 {

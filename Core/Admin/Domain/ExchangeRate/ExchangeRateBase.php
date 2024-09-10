@@ -9,9 +9,9 @@ use Core\Common\VO\Currency;
 
 abstract class ExchangeRateBase
 {
-    readonly private ?Amount $amount;
-    private \DateTimeImmutable $createdAt;
-    private ?\DateTimeImmutable $updatedAt;
+    protected ?Amount $amount;
+    protected \DateTimeImmutable $createdAt;
+    protected ?\DateTimeImmutable $updatedAt;
 
     public function __construct(
         readonly protected bool     $isEnabled,
@@ -42,14 +42,6 @@ abstract class ExchangeRateBase
     public function amount(): ?Amount
     {
         return $this->amount;
-    }
-
-    public function updateAmount(Amount $amount): void
-    {
-        $this->amount = $amount;
-        $this->updatedAt = new \DateTimeImmutable();
-
-        //todo Добавить событие обновления суммы курса обмена.
     }
 
     public function createdAt(): \DateTimeImmutable

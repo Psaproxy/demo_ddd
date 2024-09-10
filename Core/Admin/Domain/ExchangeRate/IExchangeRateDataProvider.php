@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Admin\Domain\ExchangeRate;
 
-use Core\Admin\Domain\ExchangeRate\DTO\ExchangeRateDTO;
+use Core\Admin\Domain\ExchangeRate\DTO\Control\ExchangeRateDTO;
 
 interface IExchangeRateDataProvider
 {

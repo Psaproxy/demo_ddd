@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Admin\App\View\Helpers;
+namespace Core\Common\View\Helpers;
 
 trait DateTimeTrait
 {

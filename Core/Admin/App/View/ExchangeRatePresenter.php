@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Core\Admin\App\View;
 
 use Core\Admin\App\Actions\ExchangeRatesControl\View\ExchangeRateView;
-use Core\Admin\App\View\DTO\CurrencyView;
-use Core\Admin\App\View\Helpers\AmountTrait;
-use Core\Admin\App\View\Helpers\DateTimeTrait;
-use Core\Admin\Domain\ExchangeRate\DTO\ExchangeRateDTO;
+use Core\Admin\Domain\ExchangeRate\DTO\Control\ExchangeRateDTO;
+use Core\Common\View\DTO\CurrencyView;
+use Core\Common\View\Helpers\AmountTrait;
+use Core\Common\View\Helpers\DateTimeTrait;
 
 readonly class ExchangeRatePresenter
 {

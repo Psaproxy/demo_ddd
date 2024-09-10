@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Admin\App\View\DTO;
+namespace Core\Common\View\DTO;
 
 readonly class CurrencyView
 {
