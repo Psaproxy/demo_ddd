@@ -13,7 +13,7 @@ readonly class ExchangeRate
 {
     use Events;
 
-    protected ?ExchangeRateID $id;
+    protected ExchangeRateID $id;
     protected \DateTimeImmutable $createdAt;
 
     public function __construct(
@@ -22,12 +22,13 @@ readonly class ExchangeRate
         private Currency $currencyTo,
     )
     {
+        $this->id = new ExchangeRateID();
         $this->createdAt = new \DateTimeImmutable();
 
         $this->addEvents(new ExchangeRateWasCreated($this));
     }
 
-    public function id(): ?ExchangeRateID
+    public function id(): ExchangeRateID
     {
         return $this->id;
     }

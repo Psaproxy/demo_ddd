@@ -8,8 +8,11 @@ declare(strict_types=1);
 
 namespace Commands;
 
-use Core\Admin\App\Actions\ExchangeRates\System\UpdateRatesAmounts;
+use Core\Admin\App\Actions\ExchangeRates\System\Actions\UpdateRatesAmounts;
 
+/**
+ *  Команду необходимо запускать регулярно,
+ */
 readonly class ExchangeRatesCommand
 {
     public function __construct(
@@ -18,8 +21,12 @@ readonly class ExchangeRatesCommand
     {
     }
 
-    public function updateAmountsForEnabled(): void
+    public function addEnabledToUpdatingAmounts(): void
     {
-        $this->updateRatesAmounts->updateListEnabled();
+        //$onlyNotUpdatedToday = $this->param('only_not_updated_today', true);
+        $onlyNotUpdatedToday = true;
+
+        /** @noinspection PhpConditionAlreadyCheckedInspection */
+        $this->updateRatesAmounts->addAllEnabledToUpdating($onlyNotUpdatedToday);
     }
 }

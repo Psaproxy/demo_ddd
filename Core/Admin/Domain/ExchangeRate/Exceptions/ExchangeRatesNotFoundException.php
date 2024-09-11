@@ -7,7 +7,7 @@ namespace Core\Admin\Domain\ExchangeRate\Exceptions;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
 use Core\Common\Exceptions\RuntimeException;
 
-class ExchangeRatesNotExistsException extends RuntimeException
+class ExchangeRatesNotFoundException extends RuntimeException
 {
     /**
      * @var ExchangeRateID[]

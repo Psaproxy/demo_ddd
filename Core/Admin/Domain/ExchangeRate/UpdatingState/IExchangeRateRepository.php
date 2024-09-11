@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Core\Admin\Domain\ExchangeRate\UpdatingState;
 
-use Core\Admin\Domain\ExchangeRate\Exceptions\ExchangeRatesNotExistsException;
+use Core\Admin\Domain\ExchangeRate\Exceptions\ExchangeRatesNotFoundException;
 
 interface IExchangeRateRepository
 {
     /**
      * @return ExchangeRate[]
-     * @throws ExchangeRatesNotExistsException
+     * @throws ExchangeRatesNotFoundException
      */
     public function getList(array $ids): array;
 

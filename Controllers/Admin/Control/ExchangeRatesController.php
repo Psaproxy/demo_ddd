@@ -13,7 +13,7 @@ use Core\Admin\App\Actions\ExchangeRates\Control\AddRate;
 use Core\Admin\App\Actions\ExchangeRates\Control\Exceptions\ExchangeRateAlreadyExistsException;
 use Core\Admin\App\Actions\ExchangeRates\Control\GetRates;
 use Core\Admin\App\Actions\ExchangeRates\Control\UpdateStates;
-use Core\Admin\Domain\ExchangeRate\Exceptions\ExchangeRatesNotExistsException;
+use Core\Admin\Domain\ExchangeRate\Exceptions\ExchangeRatesNotFoundException;
 use Core\Common\VO\CurrencyCode;
 
 class ExchangeRatesController extends BaseController
@@ -81,7 +81,7 @@ class ExchangeRatesController extends BaseController
 
         try {
             $this->updateStates->update($newStates);
-        } catch (ExchangeRatesNotExistsException $e) {
+        } catch (ExchangeRatesNotFoundException $e) {
             $this->response()->error(
                 "Не найдены курсы обмена валют с ID: " . implode(",", $e->idsNotExists()),
                 400

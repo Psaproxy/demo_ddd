@@ -9,7 +9,7 @@ use Core\Common\Infra\IDIContainer;
 class EventsPublisher
 {
     /**
-     * @var array<string, IListener> Ключ - класс слушателя. Значение - экземпляр слушателя.
+     * @var array<string, IEventListener> Ключ - класс слушателя. Значение - экземпляр слушателя.
      */
     private array $listeners = [];
 
@@ -39,7 +39,7 @@ class EventsPublisher
      * @noinspection PhpIncompatibleReturnTypeInspection
      * @noinspection UnknownInspectionInspection
      */
-    private function listener(string $listenerClass): IListener
+    private function listener(string $listenerClass): IEventListener
     {
         return $this->listeners[$listenerClass]
             ?? $this->listeners[$listenerClass] = $this->diContainer->get($listenerClass);

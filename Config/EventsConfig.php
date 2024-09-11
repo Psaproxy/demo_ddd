@@ -2,10 +2,6 @@
 
 declare(strict_types=1);
 
-use Core\Admin\App\Actions\ExchangeRates\System\Listeners\UpdateRateAmountListener;
-use Core\Admin\Domain\ExchangeRate\Control\Events\ExchangeRateWasCreated;
-use Core\Admin\Domain\ExchangeRate\UpdatingState\Events\ExchangeRateStateWasUpdated;
-
 class EventsConfig implements \Core\Common\Infra\Event\IEventsConfig
 {
     /**
@@ -14,12 +10,10 @@ class EventsConfig implements \Core\Common\Infra\Event\IEventsConfig
     public function listeners(): array
     {
         return [
-            ExchangeRateWasCreated::class      => [
-                UpdateRateAmountListener::class,
-            ],
-            ExchangeRateStateWasUpdated::class => [
-                UpdateRateAmountListener::class,
-            ],
+            //Event::class      => [
+            //    Listener1::class,
+            //    Listener2::class,
+            //],
         ];
     }
 }
