@@ -8,7 +8,7 @@ use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateAmount;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
 use Core\Common\Infra\Event\Event;
 
-class ExchangeRateAmountWasCreated extends Event
+class ExchangeRateAmountWasUpdated extends Event
 {
     public function __construct(
         readonly private ExchangeRateID     $id,

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Core\Admin\Domain\ExchangeRate\UpdatingAmounts;
 
 use Core\Admin\Domain\ExchangeRate\Control\ExchangeRate as ExchangeRateBase;
-use Core\Admin\Domain\ExchangeRate\UpdatingAmounts\Events\ExchangeRateAmountWasCreated;
+use Core\Admin\Domain\ExchangeRate\UpdatingAmounts\Events\ExchangeRateAmountWasUpdated;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateAmount;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
 use Core\Common\Exceptions\LogicException;
@@ -54,7 +54,7 @@ class ExchangeRate
         $this->newAmount = $amount;
         $this->updatedAt = new \DateTimeImmutable();
 
-        $this->addEvents(new ExchangeRateAmountWasCreated($this->id, $amount));
+        $this->addEvents(new ExchangeRateAmountWasUpdated($this->id, $amount));
 
         return true;
     }

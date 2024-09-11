@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Core\Admin\Domain\ExchangeRate\UpdatingAmounts;
 
 use Core\Admin\Domain\ExchangeRate\UpdatingAmounts\VO\NewAmount;
+use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
+use Core\Common\Exceptions\EntityNotFoundException;
 
 interface IExchangeRateRepository
 {
     /**
-     * @return ExchangeRate[]
+     * @throws EntityNotFoundException
      */
+    public function get(ExchangeRateID $id): ExchangeRate;
+
     public function findEnabled(): array;
 
     /**

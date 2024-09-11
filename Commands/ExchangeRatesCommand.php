@@ -20,6 +20,6 @@ readonly class ExchangeRatesCommand
 
     public function updateAmountsForEnabled(): void
     {
-        $this->updateRatesAmounts->updateEnabled();
+        $this->updateRatesAmounts->updateListEnabled();
     }
 }
