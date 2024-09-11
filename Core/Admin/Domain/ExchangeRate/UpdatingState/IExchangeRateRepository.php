@@ -14,5 +14,5 @@ interface IExchangeRateRepository
      */
     public function getList(array $ids): array;
 
-    public function changeState(ExchangeRate $rate): void;
+    public function updateState(ExchangeRate $rate): void;
 }

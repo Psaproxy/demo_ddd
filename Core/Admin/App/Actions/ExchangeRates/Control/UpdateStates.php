@@ -37,7 +37,7 @@ readonly class UpdateStates
             if (!$isStateUpdated) continue;
 
             $this->transaction->execute(function () use ($rate) {
-                $this->repository->changeState($rate);
+                $this->repository->updateState($rate);
 
                 $this->eventsPublisher->publish(...$rate->releaseEvents());
             });
