@@ -7,18 +7,18 @@ namespace Core\Admin\App\Actions\ExchangeRates\System\Listeners;
 use Core\Admin\App\Actions\ExchangeRates\System\UpdateRatesAmounts;
 use Core\Admin\Domain\ExchangeRate\Control\Events\ExchangeRateWasCreated;
 use Core\Admin\Domain\ExchangeRate\UpdatingState\Events\ExchangeRateStateWasUpdated;
-use Core\Common\Infra\Event\Event;
-use Core\Common\Infra\Event\IListener;
+use Core\Common\Infra\Event\IEvent;
+use Core\Common\Infra\Event\ListenerBase;
 
-readonly class UpdateRateAmountListener implements IListener
+class UpdateRateAmountListener extends ListenerBase
 {
     public function __construct(
-        private UpdateRatesAmounts $updateRatesAmounts
+        readonly private UpdateRatesAmounts $updateRatesAmounts
     )
     {
     }
 
-    public function process(Event $event): void
+    public function process(IEvent $event): void
     {
         if ((
                 !($event instanceof ExchangeRateWasCreated)

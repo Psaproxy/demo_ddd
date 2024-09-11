@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Core\Common\Infra\Event;
 
-interface IListener
+abstract class ListenerBase implements IListener
 {
-    public function process(IEvent $event): void;
 }

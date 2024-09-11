@@ -25,7 +25,7 @@ class EventsPublisher
      * Слушатели должны самостоятельно обрабатывать ошибки.
      * Вызов должен быть обернут в транзакцию БД.
      */
-    public function publish(Event ...$events): void
+    public function publish(IEvent ...$events): void
     {
         foreach ($events as $event) {
             $listenersClasses = $this->config->listeners()[get_class($event)];

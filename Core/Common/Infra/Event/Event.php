@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Common\Infra\Event;
 
-abstract class Event
+abstract class Event implements IEvent
 {
     private \DateTimeImmutable $createdAt;
 

@@ -7,11 +7,11 @@ namespace Core\Common\Infra\Event;
 trait Events
 {
     /**
-     * @var Event[]
+     * @var IEvent[]
      */
     private array $events = [];
 
-    private function addEvents(Event ...$events): void
+    private function addEvents(IEvent ...$events): void
     {
         foreach ($events as $event) {
             $this->events[] = $event;
@@ -19,7 +19,7 @@ trait Events
     }
 
     /**
-     * @return Event[]
+     * @return IEvent[]
      */
     public function releaseEvents(): array
     {
