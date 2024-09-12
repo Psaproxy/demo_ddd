@@ -1,8 +1,5 @@
 <?php
-/**
- * @noinspection PhpUnused
- * @noinspection UnknownInspectionInspection
- */
+/** @noinspection PhpUnused */
 
 declare(strict_types=1);
 
@@ -14,7 +11,7 @@ use Core\Admin\App\Actions\ExchangeRates\Control\Exceptions\ExchangeRateAlreadyE
 use Core\Admin\App\Actions\ExchangeRates\Control\GetRates;
 use Core\Admin\App\Actions\ExchangeRates\Control\UpdateStates;
 use Core\Admin\Domain\ExchangeRate\Exceptions\ExchangeRatesNotFoundException;
-use Core\Common\VO\CurrencyCode;
+use Core\Common\Domain\VO\CurrencyCode;
 
 class ExchangeRatesController extends BaseController
 {
@@ -27,7 +24,7 @@ class ExchangeRatesController extends BaseController
     }
 
     /**
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function list(): array
     {
@@ -36,7 +33,6 @@ class ExchangeRatesController extends BaseController
 
     /**
      * @noinspection PhpUndefinedClassInspection
-     * @noinspection UnknownInspectionInspection
      * @noinspection PhpUndefinedMethodInspection
      */
     public function add(Request $request): void
@@ -72,8 +68,8 @@ class ExchangeRatesController extends BaseController
 
     /**
      * @noinspection PhpUndefinedClassInspection
-     * @noinspection UnknownInspectionInspection
      * @noinspection PhpUndefinedMethodInspection
+     * @throws \Throwable
      */
     public function updateStates(Request $request): void
     {

@@ -6,8 +6,8 @@ namespace Core\Admin\Domain\ExchangeRate\Control;
 
 use Core\Admin\Domain\ExchangeRate\Control\Events\ExchangeRateWasCreated;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
-use Core\Common\Infra\Event\Events;
-use Core\Common\VO\Currency;
+use Core\Common\Domain\VO\Currency;
+use Core\Common\Event\Events;
 
 readonly class ExchangeRate
 {
@@ -25,7 +25,7 @@ readonly class ExchangeRate
         $this->id = new ExchangeRateID();
         $this->createdAt = new \DateTimeImmutable();
 
-        $this->addEvents(new ExchangeRateWasCreated($this));
+        $this->addEvents(new ExchangeRateWasCreated($this->id));
     }
 
     public function id(): ExchangeRateID

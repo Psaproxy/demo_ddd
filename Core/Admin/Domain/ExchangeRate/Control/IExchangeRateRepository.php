@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Admin\Domain\ExchangeRate\Control;
 
-use Core\Common\VO\CurrencyCode;
+use Core\Common\Domain\VO\CurrencyCode;
 
 interface IExchangeRateRepository
 {

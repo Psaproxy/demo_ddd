@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Common\Infra\Event;
+namespace Core\Common\App\Event;
 
 abstract class EventListenerBase implements IEventListener
 {

@@ -1,22 +1,18 @@
 <?php
-/**
- * @noinspection PhpUnused
- * @noinspection UnknownInspectionInspection
- */
+/** @noinspection PhpUnused */
 
 declare(strict_types=1);
 
 namespace Commands;
 
 use Core\Admin\App\Actions\ExchangeRates\System\Actions\UpdateRatesAmounts;
+use Core\Admin\App\Actions\ExchangeRates\System\Actions\UpdateRatesAmountsHandler;
 
-/**
- *  Команду необходимо запускать регулярно,
- */
 readonly class ExchangeRatesCommand
 {
     public function __construct(
-        private UpdateRatesAmounts $updateRatesAmounts,
+        private UpdateRatesAmounts        $updateRatesAmounts,
+        private UpdateRatesAmountsHandler $updateRatesAmountsHandler,
     )
     {
     }
@@ -28,5 +24,10 @@ readonly class ExchangeRatesCommand
 
         /** @noinspection PhpConditionAlreadyCheckedInspection */
         $this->updateRatesAmounts->addAllEnabledToUpdating($onlyNotUpdatedToday);
+    }
+
+    public function runUpdateRatesAmountsHandler(): void
+    {
+        $this->updateRatesAmountsHandler->handle();
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Core\Admin\Domain\ExchangeRate\VO;
 
+use Core\Common\Domain\VO\Amount;
 use Core\Common\Exceptions\InvalidArgumentException;
-use Core\Common\VO\Amount;
 
 class ExchangeRateAmount extends Amount
 {

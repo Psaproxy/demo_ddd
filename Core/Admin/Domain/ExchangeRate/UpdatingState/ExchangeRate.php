@@ -7,8 +7,8 @@ namespace Core\Admin\Domain\ExchangeRate\UpdatingState;
 use Core\Admin\Domain\ExchangeRate\Control\ExchangeRate as ExchangeRateBase;
 use Core\Admin\Domain\ExchangeRate\UpdatingState\Events\ExchangeRateStateWasUpdated;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
+use Core\Common\Event\Events;
 use Core\Common\Exceptions\LogicException;
-use Core\Common\Infra\Event\Events;
 
 class ExchangeRate
 {

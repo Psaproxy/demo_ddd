@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Common\VO;
+namespace Core\Common\Domain\VO;
 
 use Core\Common\Exceptions\InvalidArgumentException;
 use Random\RandomException;

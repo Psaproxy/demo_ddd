@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Common\VO;
+namespace Core\Common\Domain\VO;
 
 class Text
 {

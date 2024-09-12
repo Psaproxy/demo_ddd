@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Common\Infra\Event;
+namespace Core\Common\Event;
 
 abstract class Event implements IEvent
 {

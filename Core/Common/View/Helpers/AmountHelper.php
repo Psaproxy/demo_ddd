@@ -7,7 +7,6 @@ trait AmountHelper
     /**
      * todo Добавить нормализацию. Сейчас для примера.
      * @noinspection PhpUnusedParameterInspection
-     * @noinspection UnknownInspectionInspection
      */
     private static function normalizeAmount(string $amount, int $signAfterDot): string
     {

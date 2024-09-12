@@ -1,24 +1,24 @@
-<?php /** @noinspection PhpClassCanBeReadonlyInspection */
+<?php
 
 declare(strict_types=1);
 
 namespace Core\Admin\App\Actions\ExchangeRates\System\Actions;
 
-use Core\Common\Infra\Queue\IQueueHandler;
+use Core\Common\App\Queue\QueueHandler;
+use Core\Common\Infra\ILogger;
 
-class UpdateRatesAmountsHandler implements IQueueHandler
+class UpdateRatesAmountsHandler extends QueueHandler
 {
     public function __construct(
-        readonly private UpdateRatesAmounts $updateRatesAmounts
+        ILogger                             $logger,
+        readonly private UpdateRatesAmounts $updateRatesAmounts,
     )
     {
+        parent::__construct($logger);
     }
 
-    public function process(): void
+    protected function iteration(): void
     {
-        while (true) {
-            $this->updateRatesAmounts->processUpdating();
-            usleep(10);
-        }
+        $this->updateRatesAmounts->processUpdating();
     }
 }

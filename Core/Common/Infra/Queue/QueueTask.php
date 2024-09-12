@@ -10,6 +10,7 @@ abstract class QueueTask implements IQueueTask
 {
     readonly private QueueTaskID $id;
     readonly private \DateTimeImmutable $createdAt;
+    private int $attempt = 1;
     private ?bool $taskStatus = null;
 
     public function __construct(
@@ -23,18 +24,31 @@ abstract class QueueTask implements IQueueTask
     /**
      * @throws \JsonException
      */
-    public function __toString(): string
+    public function queueData(string $publisherName): string
     {
         return \json_encode([
-            'id'         => $this->id,
-            'data'       => $this->data,
-            'created_at' => $this->createdAt->getTimestamp(),
+            'id'           => $this->id,
+            'attempt'      => $this->attempt,
+            'data'         => $this->data,
+            'created_at'   => $this->createdAt->getTimestamp(),
+            'publisher'    => $publisherName,
+            'published_at' => (new \DateTimeImmutable())->getTimestamp(),
         ], JSON_THROW_ON_ERROR);
     }
 
     public function taskId(): QueueTaskID
     {
         return $this->id;
+    }
+
+    public function attempt(): int
+    {
+        return $this->attempt;
+    }
+
+    public function isAttemptAvailable(int $maxAttempts): bool
+    {
+        return $this->attempt <= $maxAttempts;
     }
 
     public function taskData(): array
@@ -57,7 +71,7 @@ abstract class QueueTask implements IQueueTask
     {
         try {
             return $this->getValue($keyName);
-        } catch (\Exception) {
+        } catch (\Throwable) {
             return null;
         }
     }
@@ -90,6 +104,7 @@ abstract class QueueTask implements IQueueTask
             );
         }
         $this->taskStatus = $value;
+        $this->attempt++;
     }
 
     public function markTaskAsSuccess(): void

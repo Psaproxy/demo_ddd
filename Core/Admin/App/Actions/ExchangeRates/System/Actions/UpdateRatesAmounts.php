@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace Core\Admin\App\Actions\ExchangeRates\System\Actions;
 
+use Core\Admin\App\Actions\ExchangeRates\System\Exceptions\ExchangeRateAmountUpdatingException;
 use Core\Admin\Domain\ExchangeRate\UpdatingAmounts\IExchangeRateRepository;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
-use Core\Common\Infra\Event\EventsPublisher;
-use Core\Common\Infra\ILogger;
+use Core\Common\Infra\Event\IEventsPublisher;
 use Core\Common\Infra\ITransaction;
-use Random\RandomException;
 
-class UpdateRatesAmounts
+readonly class UpdateRatesAmounts
 {
     public function __construct(
-        readonly private ITransaction            $transaction,
-        readonly private ILogger                 $logger,
-        readonly private EventsPublisher         $eventsPublisher,
-        readonly private IExchangeRateRepository $repository,
+        private ITransaction            $transaction,
+        private IEventsPublisher        $eventsPublisher,
+        private IExchangeRateRepository $repository,
     )
     {
     }
@@ -27,31 +25,25 @@ class UpdateRatesAmounts
         $ratesIds = $this->repository->findIdsEnabled($notUpdatedToday);
         if (!$ratesIds) return;
 
-        $this->repository->addTasksOnAmountsUpdating(...$ratesIds);
+        $this->repository->addOnAmountsUpdating(...$ratesIds);
+    }
+
+    public function processUpdating(): void
+    {
+        $this->repository->processAmountsUpdating(function (ExchangeRateID $rateId): void {
+            $this->transaction->execute(function () use ($rateId) {
+                foreach ($this->update($rateId) as $error) throw $error;
+            });
+        });
     }
 
     /**
-     * @throws RandomException
+     * Будут обработаны все ID. Итератор возвращает только ошибки.
      */
-    public function processUpdating(): void
-    {
-        //todo Добавить значение размера пакта в конфиг.
-        $tasks = $this->repository->findTasksOnAmountsUpdating(20);
-        if (!$tasks) return;
-
-        foreach ($tasks as $task) {
-            $this->transaction->execute(function () use ($task) {
-                $isUpdatingSuccess = $this->updateList($task->exchangeRateID());
-                $task->changeTaskStatus($isUpdatingSuccess);
-                $this->repository->updateTasksOnAmountsUpdating($task);
-            });
-        }
-    }
-
-    private function updateList(ExchangeRateID ...$ratesIds): bool
+    private function update(ExchangeRateID ...$ratesIds): \Iterator
     {
         $rates = $this->repository->getList(...$ratesIds);
-        if (!$rates) return true;
+        if (!$rates) return;
 
         $newAmounts = $this->repository->findNewAmounts(...$rates);
 
@@ -61,14 +53,13 @@ class UpdateRatesAmounts
         }
         $newAmounts = $newAmounts_;
 
-        $isAllSuccess = true;
         foreach ($rates as $rate) {
             $newAmount = $newAmounts["{$rate->currencyFromCode()}-{$rate->currencyToCode()}"];
             if ($newAmount === null) {
-                $this->logger->warning(
+                yield new ExchangeRateAmountUpdatingException(
+                    $rate->id(),
                     "Не удалось получить новую сумму курса обмена валюты {$rate->currencyFromCode()} на {$rate->currencyToCode()}."
                 );
-                $isAllSuccess = false;
                 continue;
             }
 
@@ -79,7 +70,5 @@ class UpdateRatesAmounts
 
             $this->eventsPublisher->publish(...$rate->releaseEvents());
         }
-
-        return $isAllSuccess;
     }
 }

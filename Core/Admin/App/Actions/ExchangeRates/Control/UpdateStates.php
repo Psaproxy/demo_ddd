@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Core\Admin\App\Actions\ExchangeRates\Control;
 
-use Core\Admin\Domain\ExchangeRate\Exceptions\ExchangeRatesNotFoundException;
 use Core\Admin\Domain\ExchangeRate\UpdatingState\IExchangeRateRepository;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
-use Core\Common\Infra\Event\EventsPublisher;
+use Core\Common\Infra\Event\IEventsPublisher;
 use Core\Common\Infra\ITransaction;
+use Random\RandomException;
 
 readonly class UpdateStates
 {
     public function __construct(
         private ITransaction            $transaction,
-        private EventsPublisher         $eventsPublisher,
+        private IEventsPublisher        $eventsPublisher,
         private IExchangeRateRepository $repository,
     )
     {
@@ -22,7 +22,7 @@ readonly class UpdateStates
 
     /**
      * @param array<string, bool> $newStates Ключ - ID курса. Значение - новое состояние.
-     * @throws ExchangeRatesNotFoundException
+     * @throws RandomException
      */
     public function update(array $newStates): void
     {

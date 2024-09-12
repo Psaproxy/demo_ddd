@@ -7,17 +7,17 @@ namespace Core\Admin\App\Actions\ExchangeRates\Control;
 use Core\Admin\App\Actions\ExchangeRates\Control\Exceptions\ExchangeRateAlreadyExistsException;
 use Core\Admin\Domain\ExchangeRate\Control\ExchangeRate;
 use Core\Admin\Domain\ExchangeRate\Control\IExchangeRateRepository;
-use Core\Common\Infra\Event\EventsPublisher;
+use Core\Common\Domain\VO\Currency;
+use Core\Common\Domain\VO\CurrencyCode;
+use Core\Common\Domain\VO\CurrencyTitle;
+use Core\Common\Infra\Event\IEventsPublisher;
 use Core\Common\Infra\ITransaction;
-use Core\Common\VO\Currency;
-use Core\Common\VO\CurrencyCode;
-use Core\Common\VO\CurrencyTitle;
 
 readonly class AddRate
 {
     public function __construct(
         private ITransaction            $transaction,
-        private EventsPublisher         $eventsPublisher,
+        private IEventsPublisher        $eventsPublisher,
         private IExchangeRateRepository $repository,
     )
     {

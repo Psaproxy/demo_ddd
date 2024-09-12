@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Core\Admin\Domain\ExchangeRate\UpdatingAmounts;
 
-use Core\Admin\App\Actions\ExchangeRates\System\VO\AmountUpdatingTask;
 use Core\Admin\Domain\ExchangeRate\Exceptions\ExchangeRatesNotFoundException;
 use Core\Admin\Domain\ExchangeRate\UpdatingAmounts\VO\NewAmount;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
@@ -16,14 +15,12 @@ interface IExchangeRateRepository
      */
     public function findIdsEnabled(bool $notUpdatedToday = false): array;
 
-    public function addTasksOnAmountsUpdating(ExchangeRateID ...$ratesIds): void;
+    public function addOnAmountsUpdating(ExchangeRateID ...$ratesIds): void;
 
     /**
-     * @return AmountUpdatingTask[]
+     * @param callable(ExchangeRateID $rateId): void $handler
      */
-    public function findTasksOnAmountsUpdating(int $count = 1): array;
-
-    public function updateTasksOnAmountsUpdating(AmountUpdatingTask $task): void;
+    public function processAmountsUpdating(callable $handler): void;
 
     /**
      * @return ExchangeRate[]

@@ -19,7 +19,7 @@ readonly class GetRates
 
     /**
      * @return ExchangeRateView[]
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function list(): array
     {

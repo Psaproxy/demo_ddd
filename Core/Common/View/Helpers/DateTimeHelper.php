@@ -12,7 +12,7 @@ trait DateTimeHelper
     ];
 
     /**
-     * @throws \Exception
+     * @throws \Throwable
      */
     private static function normalizeDateTime(int $timestamp, int $format): string
     {

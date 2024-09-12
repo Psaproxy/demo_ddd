@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Admin\Domain\ExchangeRate\Control\DTO;
 
-use Core\Common\DTO\CurrencyDTO;
+use Core\Common\Domain\DTO\CurrencyDTO;
 
 readonly class ExchangeRateDTO
 {

@@ -1,14 +1,14 @@
-<?php /** @noinspection PhpClassCanBeReadonlyInspection */
+<?php
 
 declare(strict_types=1);
 
-namespace Core\Admin\App\Actions\ExchangeRates\System\VO;
+namespace Core\Admin\Infra\ExchangeRate\UpdatingAmounts\VO;
 
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
 use Core\Common\Infra\Queue\QueueTask;
 use Random\RandomException;
 
-class AmountUpdatingTask extends QueueTask
+class AmountsUpdatingTask extends QueueTask
 {
     public function __construct(ExchangeRateID $rateID)
     {

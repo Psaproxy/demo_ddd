@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Core\Admin\Domain\ExchangeRate\UpdatingAmounts\VO;
 
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateAmount;
-use Core\Common\VO\CurrencyCode;
+use Core\Common\Domain\VO\CurrencyCode;
 
 readonly class NewAmount
 {

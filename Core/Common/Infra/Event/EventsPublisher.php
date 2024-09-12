@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Core\Common\Infra\Event;
 
+use Core\Common\App\Event\IEventListener;
+use Core\Common\Event\IEvent;
 use Core\Common\Infra\IDIContainer;
 
-class EventsPublisher
+class EventsPublisher implements IEventsPublisher
 {
     /**
      * @var array<string, IEventListener> Ключ - класс слушателя. Значение - экземпляр слушателя.
@@ -30,14 +32,13 @@ class EventsPublisher
         foreach ($events as $event) {
             $listenersClasses = $this->config->listeners()[get_class($event)];
             foreach ($listenersClasses as $listenerClass) {
-                $this->listener($listenerClass)->process($event);
+                $this->listener($listenerClass)->handle($event);
             }
         }
     }
 
     /**
      * @noinspection PhpIncompatibleReturnTypeInspection
-     * @noinspection UnknownInspectionInspection
      */
     private function listener(string $listenerClass): IEventListener
     {

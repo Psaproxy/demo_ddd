@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Common\DTO;
+namespace Core\Common\Domain\DTO;
 
 readonly class CurrencyDTO
 {

@@ -6,7 +6,7 @@ namespace Core\Admin\Domain\ExchangeRate\UpdatingAmounts\Events;
 
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateAmount;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
-use Core\Common\Infra\Event\Event;
+use Core\Common\Event\Event;
 
 class ExchangeRateAmountWasUpdated extends Event
 {

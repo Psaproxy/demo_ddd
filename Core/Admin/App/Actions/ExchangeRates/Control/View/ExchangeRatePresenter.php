@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Core\Admin\App\Actions\ExchangeRates\Control\View;
 
 use Core\Admin\Domain\ExchangeRate\Control\DTO\ExchangeRateDTO;
-use Core\Common\DTO\CurrencyDTO;
+use Core\Common\Domain\DTO\CurrencyDTO;
 use Core\Common\View\Helpers\AmountHelper;
 use Core\Common\View\Helpers\DateTimeHelper;
 
@@ -16,7 +16,7 @@ readonly class ExchangeRatePresenter
 
     /**
      * @return ExchangeRateView[]
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function list(ExchangeRateDTO ...$rates): array
     {

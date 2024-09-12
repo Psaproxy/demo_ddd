@@ -11,6 +11,8 @@ interface IQueueTask
 {
     public function taskId(): QueueTaskID;
 
+    public function attempt(): int;
+
     public function taskData(): mixed;
 
     public function taskCreatedAt(): \DateTimeImmutable;
