@@ -15,12 +15,12 @@ interface IExchangeRateRepository
      */
     public function findIdsEnabled(bool $notUpdatedToday = false): array;
 
-    public function addOnAmountsUpdating(ExchangeRateID ...$ratesIds): void;
+    public function addOnUpdatingAmounts(ExchangeRateID ...$ratesIds): void;
 
     /**
      * @param callable(ExchangeRateID $rateId): void $handler
      */
-    public function processAmountsUpdating(callable $handler): void;
+    public function processUpdatingAmounts(callable $handler): void;
 
     /**
      * @return ExchangeRate[]

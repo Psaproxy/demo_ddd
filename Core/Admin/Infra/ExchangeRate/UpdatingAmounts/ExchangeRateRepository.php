@@ -9,7 +9,7 @@ use Core\Admin\Domain\ExchangeRate\UpdatingAmounts\ExchangeRate;
 use Core\Admin\Domain\ExchangeRate\UpdatingAmounts\IExchangeRateRepository;
 use Core\Admin\Domain\ExchangeRate\UpdatingAmounts\VO\NewAmount;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
-use Core\Admin\Infra\ExchangeRate\UpdatingAmounts\VO\AmountsUpdatingTask;
+use Core\Admin\Infra\ExchangeRate\UpdatingAmounts\VO\UpdatingAmountsTask;
 use Core\Common\Exceptions\NotImplementedException;
 use Core\Common\Infra\Queue\Exceptions\QueueTaskAttemptLimitException;
 use ExchangeRatesConfig;
@@ -30,10 +30,10 @@ readonly class ExchangeRateRepository implements IExchangeRateRepository
         throw new NotImplementedException();
     }
 
-    public function addOnAmountsUpdating(ExchangeRateID ...$ratesIds): void
+    public function addOnUpdatingAmounts(ExchangeRateID ...$ratesIds): void
     {
-        $tasks = array_map(static function (ExchangeRateID $rateID): AmountsUpdatingTask {
-            return new AmountsUpdatingTask($rateID);
+        $tasks = array_map(static function (ExchangeRateID $rateID): UpdatingAmountsTask {
+            return new UpdatingAmountsTask($rateID);
         }, $ratesIds);
 
         /** @noinspection PhpUndefinedFieldInspection */
@@ -45,10 +45,10 @@ readonly class ExchangeRateRepository implements IExchangeRateRepository
      * @noinspection PhpUndefinedFieldInspection
      * @throws QueueTaskAttemptLimitException|\Throwable
      */
-    public function processAmountsUpdating(callable $handler): void
+    public function processUpdatingAmounts(callable $handler): void
     {
-        /** @var AmountsUpdatingTask $task */
-        $task = $this->queue->findNext('queue_name', AmountsUpdatingTask::class);
+        /** @var UpdatingAmountsTask $task */
+        $task = $this->queue->findNext('exchange_rates.updating_amounts', UpdatingAmountsTask::class);
         if (!$task) return;
 
         if (!$task->isTaskAttemptAvailable($this->config->maxAttemptsOfAmountUpdating())) {

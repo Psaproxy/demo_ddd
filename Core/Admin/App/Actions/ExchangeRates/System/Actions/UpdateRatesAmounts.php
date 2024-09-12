@@ -25,12 +25,12 @@ readonly class UpdateRatesAmounts
         $ratesIds = $this->repository->findIdsEnabled($notUpdatedToday);
         if (!$ratesIds) return;
 
-        $this->repository->addOnAmountsUpdating(...$ratesIds);
+        $this->repository->addOnUpdatingAmounts(...$ratesIds);
     }
 
     public function processUpdating(): void
     {
-        $this->repository->processAmountsUpdating(function (ExchangeRateID $rateId): void {
+        $this->repository->processUpdatingAmounts(function (ExchangeRateID $rateId): void {
             $this->transaction->execute(function () use ($rateId) {
                 foreach ($this->update($rateId) as $error) throw $error;
             });

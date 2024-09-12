@@ -26,7 +26,7 @@ readonly class ExchangeRatesCommand
         $this->updateRatesAmounts->addAllEnabledToUpdating($onlyNotUpdatedToday);
     }
 
-    public function runUpdateRatesAmountsHandler(): void
+    public function runAmountsUpdatingHandler(): void
     {
         $this->updateRatesAmountsHandler->handle();
     }

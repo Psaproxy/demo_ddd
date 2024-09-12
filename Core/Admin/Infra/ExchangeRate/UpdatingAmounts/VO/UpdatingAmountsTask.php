@@ -7,7 +7,7 @@ namespace Core\Admin\Infra\ExchangeRate\UpdatingAmounts\VO;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
 use Core\Common\Infra\Queue\QueueTask;
 
-class AmountsUpdatingTask extends QueueTask
+class UpdatingAmountsTask extends QueueTask
 {
     public function __construct(ExchangeRateID $rateID)
     {
