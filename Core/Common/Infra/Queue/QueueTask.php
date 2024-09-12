@@ -8,17 +8,18 @@ use Core\Common\Exceptions\RuntimeException;
 
 abstract class QueueTask implements IQueueTask
 {
-    readonly private QueueTaskID $id;
-    readonly private \DateTimeImmutable $createdAt;
-    private int $attempt = 1;
-    private ?bool $taskStatus = null;
+    readonly private QueueTaskID $taskId;
+    private int $taskCountAttemptsWas = 0;
+    private ?bool $taskIsProcessed = null;
+    readonly private array $taskData;
+    private array $taskDataConvected = [];
+    readonly private \DateTimeImmutable $taskCreatedAt;
 
-    public function __construct(
-        readonly private array $data,
-    )
+    public function __construct(array $taskData)
     {
-        $this->id = new QueueTaskID();
-        $this->createdAt = new \DateTimeImmutable();
+        $this->taskId = new QueueTaskID();
+        $this->taskData = $taskData;
+        $this->taskCreatedAt = new \DateTimeImmutable();
     }
 
     /**
@@ -27,50 +28,112 @@ abstract class QueueTask implements IQueueTask
     public function queueData(string $publisherName): string
     {
         return \json_encode([
-            'id'           => $this->id,
-            'attempt'      => $this->attempt,
-            'data'         => $this->data,
-            'created_at'   => $this->createdAt->getTimestamp(),
-            'publisher'    => $publisherName,
-            'published_at' => (new \DateTimeImmutable())->getTimestamp(),
+            'id'                 => $this->taskId,
+            'count_attempts_was' => $this->taskCountAttemptsWas,
+            'data'               => $this->taskData,
+            'created_at'         => $this->taskCreatedAt->getTimestamp(),
+            'publisher'          => $publisherName,
+            'published_at'       => (new \DateTimeImmutable())->getTimestamp(),
         ], JSON_THROW_ON_ERROR);
     }
 
     public function taskId(): QueueTaskID
     {
-        return $this->id;
+        return $this->taskId;
     }
 
-    public function attempt(): int
+    public function taskCountAttemptsWas(): int
     {
-        return $this->attempt;
+        return $this->taskCountAttemptsWas;
     }
 
-    public function isAttemptAvailable(int $maxAttempts): bool
+    public function isTaskAttemptAvailable(int $maxAttempts): bool
     {
-        return $this->attempt <= $maxAttempts;
+        return $this->taskCountAttemptsWas <= $maxAttempts;
+    }
+
+    public function isTaskProcessed(): bool
+    {
+        return null !== $this->taskIsProcessed;
+    }
+
+    public function isTaskSuccess(): bool
+    {
+        return true === $this->taskIsProcessed;
+    }
+
+    public function isTaskFail(): bool
+    {
+        return false === $this->taskIsProcessed;
+    }
+
+    public function markTaskAsProcessed(bool $isSuccess): void
+    {
+        if (null !== $this->taskIsProcessed) {
+            throw new RuntimeException(
+                "Невозможно изменить состояние обработки задачи с ID \"$this->taskId\" на \"$isSuccess\". Так состояние уже был изменен на \"$this->taskIsProcessed\"."
+            );
+        }
+        $this->taskIsProcessed = $isSuccess;
+        $this->taskCountAttemptsWas++;
+    }
+
+    public function markTaskAsSuccess(): void
+    {
+        $this->markTaskAsProcessed(true);
+    }
+
+    public function markTaskAsFail(): void
+    {
+        $this->markTaskAsProcessed(false);
     }
 
     public function taskData(): array
     {
-        return $this->data;
+        return $this->taskData;
     }
 
-    protected function getValue(string $keyName): mixed
+    protected function getTaskValue(string $keyName, ?callable $convector = null): mixed
     {
-        if (!array_key_exists($keyName, $this->data)) {
+        if ($convector && array_key_exists($keyName, $this->taskDataConvected)) {
+            return $this->taskDataConvected[$keyName];
+        }
+
+        if (!array_key_exists($keyName, $this->taskData)) {
+            throw new RuntimeException(
+                "Не найдено значение с ключом \"$keyName\" в данных задачи: " . self::class
+            );
+        }
+        $value = $this->taskData[$keyName];
+
+        return !$convector ? $value : $this->taskDataConvected[$keyName] = $convector($value);
+    }
+
+    protected function findTaskValue(string $keyName, mixed $default = null, ?callable $convector = null): mixed
+    {
+        try {
+            $value = $this->getTaskValue($keyName, $convector);
+        } catch (\Throwable) {
+            $value = $default;
+        }
+        return !$convector ? $value : $this->taskDataConvected[$keyName] = $convector($value);
+    }
+
+    protected function getTaskValue2(string $keyName): mixed
+    {
+        if (!array_key_exists($keyName, $this->taskData)) {
             throw new RuntimeException(
                 "Не найдено значение с ключом \"$keyName\" в данных задачи: " . self::class
             );
         }
 
-        return $this->data[$keyName];
+        return $this->taskData[$keyName];
     }
 
-    protected function findValue(string $keyName): mixed
+    protected function findTaskValue2(string $keyName): mixed
     {
         try {
-            return $this->getValue($keyName);
+            return $this->getTaskValue($keyName);
         } catch (\Throwable) {
             return null;
         }
@@ -78,42 +141,6 @@ abstract class QueueTask implements IQueueTask
 
     public function taskCreatedAt(): \DateTimeImmutable
     {
-        return $this->createdAt;
-    }
-
-    public function isTaskReady(): bool
-    {
-        return null !== $this->taskStatus;
-    }
-
-    public function isTaskSuccess(): bool
-    {
-        return true === $this->taskStatus;
-    }
-
-    public function isTaskFail(): bool
-    {
-        return false === $this->taskStatus;
-    }
-
-    public function changeTaskStatus(bool $value): void
-    {
-        if (null !== $this->taskStatus) {
-            throw new RuntimeException(
-                "Невозможно изменить статус задачи с ID \"$this->id\" на \"$value\". Так статус уже был изменен на \"$this->taskStatus\"."
-            );
-        }
-        $this->taskStatus = $value;
-        $this->attempt++;
-    }
-
-    public function markTaskAsSuccess(): void
-    {
-        $this->changeTaskStatus(true);
-    }
-
-    public function markTaskAsFail(): void
-    {
-        $this->changeTaskStatus(false);
+        return $this->taskCreatedAt;
     }
 }

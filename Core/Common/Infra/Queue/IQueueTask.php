@@ -11,7 +11,7 @@ interface IQueueTask
 {
     public function taskId(): QueueTaskID;
 
-    public function attempt(): int;
+    public function taskCountAttemptsWas(): int;
 
     public function taskData(): mixed;
 

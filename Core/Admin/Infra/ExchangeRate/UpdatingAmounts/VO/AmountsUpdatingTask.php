@@ -6,7 +6,6 @@ namespace Core\Admin\Infra\ExchangeRate\UpdatingAmounts\VO;
 
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
 use Core\Common\Infra\Queue\QueueTask;
-use Random\RandomException;
 
 class AmountsUpdatingTask extends QueueTask
 {
@@ -18,10 +17,12 @@ class AmountsUpdatingTask extends QueueTask
     }
 
     /**
-     * @throws RandomException
+     * @throws \Throwable
      */
     public function exchangeRateID(): ExchangeRateID
     {
-        return new ExchangeRateID($this->getValue('exchange_rate_id'));
+        return $this->getTaskValue('exchange_rate_id', function (string $rateId): ExchangeRateID {
+            return new ExchangeRateID($rateId);
+        });
     }
 }

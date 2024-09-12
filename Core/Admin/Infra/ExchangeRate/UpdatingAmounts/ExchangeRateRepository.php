@@ -11,9 +11,17 @@ use Core\Admin\Domain\ExchangeRate\UpdatingAmounts\VO\NewAmount;
 use Core\Admin\Domain\ExchangeRate\VO\ExchangeRateID;
 use Core\Admin\Infra\ExchangeRate\UpdatingAmounts\VO\AmountsUpdatingTask;
 use Core\Common\Exceptions\NotImplementedException;
+use Core\Common\Infra\Queue\Exceptions\QueueTaskAttemptLimitException;
+use ExchangeRatesConfig;
 
-class ExchangeRateRepository implements IExchangeRateRepository
+readonly class ExchangeRateRepository implements IExchangeRateRepository
 {
+    public function __construct(
+        private ExchangeRatesConfig $config,
+    )
+    {
+    }
+
     /**
      * @return ExchangeRateID[]
      */
@@ -35,7 +43,7 @@ class ExchangeRateRepository implements IExchangeRateRepository
     /**
      * @param callable(ExchangeRateID $rateId): void $handler
      * @noinspection PhpUndefinedFieldInspection
-     * @throws \Throwable
+     * @throws QueueTaskAttemptLimitException|\Throwable
      */
     public function processAmountsUpdating(callable $handler): void
     {
@@ -43,15 +51,11 @@ class ExchangeRateRepository implements IExchangeRateRepository
         $task = $this->queue->findNext('queue_name', AmountsUpdatingTask::class);
         if (!$task) return;
 
-        //todo Реализовать опциональное значение макс попыток в задаче.
-        //todo Реализовать опциональное авто отклонение при исчерпании попыток.
-        //todo Перенести вызов исключение в класс задачи.
-        //todo Перенести значение макс попыток в конфиг.
-        if ($task->isAttemptAvailable(10)) {
+        if (!$task->isTaskAttemptAvailable($this->config->maxAttemptsOfAmountUpdating())) {
             $this->queue->fail($task);
-            //todo Добавить общее исключение завершения ошибок обработки.
-            throw new \RuntimeException(
-                "Не удалось обновить сумму курса обмена с ID \"{$task->exchangeRateID()}\". Исчерпаны попытки обработать задачу из очереди с ID \"{$task->taskId()}\". Было попыток: {$task->attempt()}."
+            throw new QueueTaskAttemptLimitException(
+                $task,
+                "Не удалось обновить сумму курса обмена с ID \"{$task->exchangeRateID()}\"."
             );
         }
 
@@ -60,7 +64,6 @@ class ExchangeRateRepository implements IExchangeRateRepository
             $this->queue->success($task);
 
         } catch (\Throwable $exception) {
-            //todo Реализовать метод с авто-повтором на основе доступных попыток.
             $this->queue->failAndRepeat($task);
             throw $exception;
         }
