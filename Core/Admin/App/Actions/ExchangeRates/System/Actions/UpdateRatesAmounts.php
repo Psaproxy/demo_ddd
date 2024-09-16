@@ -56,6 +56,8 @@ readonly class UpdateRatesAmounts
         foreach ($rates as $rate) {
             $newAmount = $newAmounts["{$rate->currencyFromCode()}-{$rate->currencyToCode()}"];
             if ($newAmount === null) {
+                // Ошибка не останавливает обновление всего списка курсов обмен.
+                // Только сообщает во вне об ошибке через yield.
                 yield new ExchangeRateAmountUpdatingException(
                     $rate->id(),
                     "Не удалось получить новую сумму курса обмена валюты {$rate->currencyFromCode()} на {$rate->currencyToCode()}."
